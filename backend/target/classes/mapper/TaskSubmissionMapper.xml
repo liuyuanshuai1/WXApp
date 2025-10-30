@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.familypoints.backend.mapper.TaskSubmissionMapper">
+
+    <!-- 根据提交记录ID查询 -->
+    <select id="selectById" resultType="com.familypoints.backend.model.entity.TaskSubmission">
+        SELECT * FROM task_submission WHERE id = #{id}
+    </select>
+
+    <!-- 根据任务ID查询提交记录 -->
+    <select id="selectByTaskId" resultType="com.familypoints.backend.model.entity.TaskSubmission">
+        SELECT * FROM task_submission WHERE task_id = #{taskId} ORDER BY submit_time DESC
+    </select>
+
+    <!-- 根据用户ID查询提交记录 -->
+    <select id="selectByUserId" resultType="com.familypoints.backend.model.entity.TaskSubmission">
+        SELECT * FROM task_submission WHERE user_id = #{userId} ORDER BY submit_time DESC
+    </select>
+
+    <!-- 根据家庭ID查询待审核的提交记录 -->
+    <select id="selectPendingByFamilyId" resultType="com.familypoints.backend.model.entity.TaskSubmission">
+        SELECT ts.* 
+        FROM task_submission ts
+        JOIN task t ON ts.task_id = t.id
+        WHERE t.family_id = #{familyId} AND ts.status = 0
+        ORDER BY ts.submit_time ASC
+    </select>
+
+    <!-- 更新提交记录状态 -->
+    <update id="updateSubmissionStatus">
+        UPDATE task_submission
+        SET 
+            status = #{status},
+            reviewer_id = #{reviewerId},
+            review_comment = #{reviewComment},
+            review_time = #{reviewTime}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 插入任务提交记录 -->
+    <insert id="insert" parameterType="com.familypoints.backend.model.entity.TaskSubmission">
+        INSERT INTO task_submission (task_id, user_id, content, images, status, submit_time)
+        VALUES (#{taskId}, #{userId}, #{content}, #{images}, #{status}, #{submitTime})
+    </insert>
+
+</mapper>

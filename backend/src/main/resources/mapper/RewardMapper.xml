@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.familypoints.backend.mapper.RewardMapper">
+
+    <!-- 根据奖励ID查询 -->
+    <select id="selectByRewardId" resultType="com.familypoints.backend.model.Reward">
+        SELECT * FROM reward WHERE id = #{id}
+    </select>
+
+    <!-- 根据家庭ID查询奖励列表 -->
+    <select id="selectByFamilyId" resultType="com.familypoints.backend.model.Reward">
+        SELECT * FROM reward WHERE family_id = #{familyId} ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据创建者ID查询奖励列表 -->
+    <select id="selectByCreatorId" resultType="com.familypoints.backend.model.Reward">
+        SELECT * FROM reward WHERE creator_id = #{creatorId} ORDER BY created_at DESC
+    </select>
+
+    <!-- 更新奖励库存 -->
+    <update id="updateStock">
+        UPDATE reward SET stock = #{stock} WHERE id = #{id}
+    </update>
+
+    <!-- 插入奖励记录 -->
+    <insert id="insert" parameterType="com.familypoints.backend.model.Reward">
+        INSERT INTO reward (id, family_id, name, description, points_required, stock, status, created_at)
+        VALUES (#{id}, #{familyId}, #{name}, #{description}, #{pointsRequired}, #{stock}, #{status}, #{createdAt})
+    </insert>
+
+    <!-- 根据ID更新奖励信息 -->
+    <update id="updateById" parameterType="com.familypoints.backend.model.Reward">
+        UPDATE reward 
+        SET name = #{name}, description = #{description}, points_required = #{pointsRequired}, 
+            stock = #{stock}, status = #{status}, updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+</mapper>

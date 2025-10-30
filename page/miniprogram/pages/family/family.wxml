@@ -1,0 +1,44 @@
+<view class="family-container">
+  <!-- 自定义导航栏 -->
+  <navigation-bar title="家庭管理" background="#fff" color="#000" back="{{true}}" bindback="onBack"></navigation-bar>
+  
+  <!-- 家庭信息展示 -->
+  <view class="family-header" wx:if="{{familyInfo}}">
+    <view class="family-name">{{familyInfo.name}}</view>
+    <view class="family-stats">
+      <text class="stat-item">成员: {{familyInfo.memberCount}}人</text>
+      <text class="stat-item">积分: {{familyInfo.totalPoints}}分</text>
+    </view>
+    <view class="family-role">我的角色: {{familyInfo.myRole}}</view>
+  </view>
+  
+  <!-- 家庭操作按钮 -->
+  <view class="family-actions">
+    <button class="action-btn primary" bindtap="createFamily" wx:if="{{!familyInfo}}">创建家庭</button>
+    <button class="action-btn secondary" bindtap="joinFamily" wx:if="{{!familyInfo}}">加入家庭</button>
+    <button class="action-btn primary" bindtap="viewMembers" wx:if="{{familyInfo}}">家庭成员</button>
+    <button class="action-btn secondary" bindtap="leaveFamily" wx:if="{{familyInfo}}">退出家庭</button>
+  </view>
+  
+  <!-- 家庭成员列表 -->
+  <view class="members-section" wx:if="{{familyInfo}}">
+    <view class="section-title">家庭成员</view>
+    <scroll-view class="members-list" scroll-y>
+      <view class="member-item" wx:for="{{familyMembers}}" wx:key="id">
+        <image class="member-avatar" src="{{item.avatarUrl || '/static/images/default-avatar.png'}}" binderror="onImageError"></image>
+        <view class="member-info">
+          <text class="member-name">{{item.nickname}}</text>
+          <text class="member-role">{{item.role}}</text>
+        </view>
+        <view class="member-points">{{item.points}}分</view>
+      </view>
+    </scroll-view>
+  </view>
+  
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <image class="empty-icon" src="/static/images/family-empty.png" binderror="onImageError"></image>
+    <text class="empty-text">暂无家庭信息</text>
+    <text class="empty-desc">创建或加入一个家庭开始使用</text>
+  </view>
+</view>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.familypoints.backend.mapper.UserAccountMapper">
+
+    <!-- 根据OpenID查询用户 -->
+    <select id="selectByOpenId" resultType="com.familypoints.backend.model.UserAccount">
+        SELECT * FROM user_account WHERE open_id = #{openId}
+    </select>
+
+    <!-- 根据用户ID查询用户 -->
+    <select id="selectByUserId" resultType="com.familypoints.backend.model.UserAccount">
+        SELECT * FROM user_account WHERE id = #{id}
+    </select>
+
+    <!-- 插入用户记录 -->
+    <insert id="insert" parameterType="com.familypoints.backend.model.UserAccount">
+        INSERT INTO user_account (open_id, nickname, avatar_url, created_at)
+        VALUES (#{openId}, #{nickname}, #{avatarUrl}, NOW())
+    </insert>
+
+    <!-- 更新用户信息 -->
+    <update id="updateById" parameterType="com.familypoints.backend.model.UserAccount">
+        UPDATE user_account
+        SET 
+            nickname = #{nickname},
+            avatar_url = #{avatarUrl},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+</mapper>

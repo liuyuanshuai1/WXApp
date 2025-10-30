@@ -1,0 +1,132 @@
+/**index.less**/
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.scrollarea {
+  flex: 1;
+  overflow-y: hidden;
+}
+
+/**index.less**/
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50rpx;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+  margin: 20rpx;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 150px;
+}
+
+/* 家庭功能入口样式 */
+.family-section, .task-reward-section {
+  width: 100%;
+  margin-bottom: 40rpx;
+  padding: 20rpx;
+  background-color: #f5f5f5;
+  border-radius: 10rpx;
+}
+
+.section-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  color: #333;
+}
+
+.family-buttons, .task-reward-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.family-button, .task-reward-button {
+  flex: 1;
+  margin: 0 10rpx;
+  padding: 20rpx;
+  background-color: #007aff;
+  color: white;
+  border-radius: 10rpx;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.family-button:first-child, .task-reward-button:first-child {
+  margin-left: 0;
+}
+
+.family-button:last-child, .task-reward-button:last-child {
+  margin-right: 0;
+}
+
+.nav-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-button {
+  padding: 20rpx 40rpx;
+  background-color: #1aad19;
+  color: white;
+  border-radius: 10rpx;
+  text-align: center;
+}
+
+.nav-button-text {
+  font-size: 32rpx;
+}
+.avatar-wrapper {
+  padding: 0;
+  width: 56px !important;
+  border-radius: 8px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.avatar {
+  display: block;
+  width: 56px;
+  height: 56px;
+}
+
+.nickname-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  border-top: .5px solid rgba(0, 0, 0, 0.1);
+  border-bottom: .5px solid rgba(0, 0, 0, 0.1);
+  color: black;
+}
+
+.nickname-label {
+  width: 105px;
+}
+
+.nickname-input {
+  flex: 1;
+}

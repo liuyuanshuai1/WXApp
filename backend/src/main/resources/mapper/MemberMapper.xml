@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.familypoints.backend.mapper.MemberMapper">
+
+    <!-- 根据用户ID查询家庭成员 -->
+    <select id="selectByUserId" resultType="com.familypoints.backend.model.Member">
+        SELECT * FROM member WHERE user_id = #{userId}
+    </select>
+
+    <!-- 根据家庭ID查询家庭成员 -->
+    <select id="selectByFamilyId" resultType="com.familypoints.backend.model.Member">
+        SELECT * FROM member WHERE family_id = #{familyId}
+    </select>
+
+    <!-- 根据用户ID和家庭ID查询成员关系 -->
+    <select id="selectByUserIdAndFamilyId" resultType="com.familypoints.backend.model.Member">
+        SELECT * FROM member WHERE user_id = #{userId} AND family_id = #{familyId}
+    </select>
+
+    <!-- 删除用户在家庭中的成员关系 -->
+    <delete id="deleteByUserIdAndFamilyId">
+        DELETE FROM member WHERE user_id = #{userId} AND family_id = #{familyId}
+    </delete>
+
+    <!-- 查询家庭中的管理员成员 -->
+    <select id="selectAdminsByFamilyId" resultType="com.familypoints.backend.model.Member">
+        SELECT * FROM member WHERE family_id = #{familyId} AND role = 1
+    </select>
+
+    <!-- 插入成员关系记录 -->
+    <insert id="insert" parameterType="com.familypoints.backend.model.Member">
+        INSERT INTO member (id, family_id, user_id, role, joined_at)
+        VALUES (#{id}, #{familyId}, #{userId}, #{role}, #{joinedAt})
+    </insert>
+
+    <!-- 更新成员角色 -->
+    <update id="updateRole">
+        UPDATE member SET role = #{role} WHERE id = #{id}
+    </update>
+
+</mapper>

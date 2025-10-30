@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.familypoints.backend.mapper.PointsHistoryMapper">
+
+    <!-- 根据用户ID查询积分历史记录 -->
+    <select id="selectByUserId" resultType="com.familypoints.backend.model.entity.PointsHistory">
+        SELECT * FROM points_history WHERE user_id = #{userId} ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据用户ID和家庭ID查询积分历史记录 -->
+    <select id="selectByUserIdAndFamilyId" resultType="com.familypoints.backend.model.entity.PointsHistory">
+        SELECT * FROM points_history WHERE user_id = #{userId} AND family_id = #{familyId} ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据家庭ID查询积分历史记录 -->
+    <select id="selectByFamilyId" resultType="com.familypoints.backend.model.entity.PointsHistory">
+        SELECT * FROM points_history WHERE family_id = #{familyId} ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据积分类型查询历史记录 -->
+    <select id="selectByUserIdAndType" resultType="com.familypoints.backend.model.entity.PointsHistory">
+        SELECT * FROM points_history WHERE user_id = #{userId} AND type = #{type} ORDER BY created_at DESC
+    </select>
+
+    <!-- 插入积分历史记录 -->
+    <insert id="insert" parameterType="com.familypoints.backend.model.entity.PointsHistory">
+        INSERT INTO points_history (id, user_id, family_id, type, related_id, points_change, previous_points, current_points, remark, created_at)
+        VALUES (#{id}, #{userId}, #{familyId}, #{type}, #{relatedId}, #{pointsChange}, #{previousPoints}, #{currentPoints}, #{remark}, #{createdAt})
+    </insert>
+</mapper>

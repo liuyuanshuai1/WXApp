@@ -1,0 +1,31 @@
+<!--notifications.wxml-->
+<navigation-bar title="消息通知" back="{{true}}" color="black" background="#FFF"></navigation-bar>
+<view class="notifications-container">
+  <view class="notifications-header">
+    <text class="header-title">系统通知</text>
+    <text class="notification-count">共 {{notifications.length}} 条未读</text>
+  </view>
+  
+  <scroll-view class="notifications-scroll" scroll-y>
+    <view class="notifications-list">
+      <block wx:for="{{notifications}}" wx:key="id">
+        <view class="notification-item {{item.read ? 'read' : 'unread'}}" bindtap="markAsRead" data-id="{{item.id}}">
+          <view class="notification-header">
+            <text class="notification-title">{{item.title}}</text>
+            <text class="notification-date">{{item.formattedDate}}</text>
+          </view>
+          <view class="notification-content">
+            <text>{{item.message}}</text>
+          </view>
+          <view class="notification-footer">
+            <text class="notification-type {{item.type}}">{{item.typeText}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+    
+    <view wx:if="{{notifications.length === 0}}" class="empty-state">
+      <text class="empty-text">暂无新通知</text>
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,75 @@
+<view class="tasks-container">
+  <!-- 自定义导航栏 -->
+  <navigation-bar title="任务中心" background="#fff" color="#000" back="{{true}}" bindback="onBack"></navigation-bar>
+  
+  <!-- 任务分类标签 -->
+  <view class="tabs">
+    <view class="tab {{currentTab === 0 ? 'active' : ''}}" data-tab="0" bindtap="switchTab">可领取</view>
+    <view class="tab {{currentTab === 1 ? 'active' : ''}}" data-tab="1" bindtap="switchTab">进行中</view>
+    <view class="tab {{currentTab === 2 ? 'active' : ''}}" data-tab="2" bindtap="switchTab">已完成</view>
+  </view>
+  
+  <!-- 任务列表 -->
+  <scroll-view class="tasks-scroll" scroll-y>
+    <view class="task-list">
+      <!-- 可领取任务 -->
+      <block wx:if="{{currentTab === 0}}">
+        <view class="task-item" wx:for="{{availableTasks}}" wx:key="id">
+          <view class="task-header">
+            <text class="task-title">{{item.title}}</text>
+            <text class="task-points">{{item.points}}分</text>
+          </view>
+          <view class="task-content">{{item.description}}</view>
+          <view class="task-footer">
+            <text class="task-deadline">截止: {{item.deadline}}</text>
+            <button class="claim-btn" bindtap="claimTask" data-id="{{item.id}}">领取任务</button>
+          </view>
+        </view>
+      </block>
+      
+      <!-- 进行中任务 -->
+      <block wx:if="{{currentTab === 1}}">
+        <view class="task-item" wx:for="{{ongoingTasks}}" wx:key="id">
+          <view class="task-header">
+            <text class="task-title">{{item.title}}</text>
+            <text class="task-points">{{item.points}}分</text>
+          </view>
+          <view class="task-content">{{item.description}}</view>
+          <view class="task-footer">
+            <text class="task-deadline">截止: {{item.deadline}}</text>
+            <button class="submit-btn" bindtap="submitTask" data-id="{{item.id}}">提交任务</button>
+          </view>
+        </view>
+      </block>
+      
+      <!-- 已完成任务 -->
+      <block wx:if="{{currentTab === 2}}">
+        <view class="task-item completed" wx:for="{{completedTasks}}" wx:key="id">
+          <view class="task-header">
+            <text class="task-title">{{item.title}}</text>
+            <text class="task-points">{{item.points}}分</text>
+          </view>
+          <view class="task-content">{{item.description}}</view>
+          <view class="task-footer">
+            <text class="task-deadline">完成时间: {{item.completedTime}}</text>
+            <text class="task-status">已完成</text>
+          </view>
+        </view>
+      </block>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{(currentTab === 0 && availableTasks.length === 0) || (currentTab === 1 && ongoingTasks.length === 0) || (currentTab === 2 && completedTasks.length === 0)}}">
+      <image class="empty-icon" src="/static/images/tasks-empty.png" binderror="onImageError"></image>
+      <text class="empty-text">暂无任务</text>
+      <text class="empty-desc" wx:if="{{currentTab === 0}}">当前没有可领取的任务</text>
+      <text class="empty-desc" wx:if="{{currentTab === 1}}">当前没有进行中的任务</text>
+      <text class="empty-desc" wx:if="{{currentTab === 2}}">当前没有已完成的任务</text>
+    </view>
+  </scroll-view>
+  
+  <!-- 悬浮按钮（仅家长可见） -->
+  <view class="fab" wx:if="{{isParent}}" bindtap="createTask">
+    <text class="fab-icon">+</text>
+  </view>
+</view>

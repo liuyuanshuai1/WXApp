@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.familypoints.backend.mapper.UserPointsMapper">
+
+    <!-- 根据用户ID和家庭ID查询积分信息 -->
+    <select id="selectByUserIdAndFamilyId" resultType="com.familypoints.backend.model.entity.UserPoints">
+        SELECT * FROM user_points WHERE user_id = #{userId} AND family_id = #{familyId}
+    </select>
+
+    <!-- 根据用户ID查询所有积分信息 -->
+    <select id="selectByUserId" resultType="com.familypoints.backend.model.entity.UserPoints">
+        SELECT * FROM user_points WHERE user_id = #{userId}
+    </select>
+
+    <!-- 更新用户积分 -->
+    <update id="updatePoints">
+        UPDATE user_points
+        SET 
+            total_points = #{totalPoints},
+            available_points = #{availablePoints},
+            history_points = #{historyPoints},
+            update_time = NOW()
+        WHERE user_id = #{userId} AND family_id = #{familyId}
+    </update>
+
+    <!-- 增加用户积分 -->
+    <update id="addPoints">
+        UPDATE user_points
+        SET 
+            total_points = total_points + #{points},
+            available_points = available_points + #{points},
+            history_points = history_points + #{points},
+            update_time = NOW()
+        WHERE user_id = #{userId} AND family_id = #{familyId}
+    </update>
+
+    <!-- 减少用户积分 -->
+    <update id="reducePoints">
+        UPDATE user_points
+        SET 
+            available_points = available_points - #{points},
+            update_time = NOW()
+        WHERE user_id = #{userId} AND family_id = #{familyId}
+    </update>
+
+    <!-- 插入用户积分记录 -->
+    <insert id="insert" parameterType="com.familypoints.backend.model.entity.UserPoints">
+        INSERT INTO user_points (user_id, family_id, total_points, available_points, history_points, update_time)
+        VALUES (#{userId}, #{familyId}, #{totalPoints}, #{availablePoints}, #{historyPoints}, #{updateTime})
+        ON DUPLICATE KEY UPDATE
+        total_points = VALUES(total_points),
+        available_points = VALUES(available_points),
+        history_points = VALUES(historyPoints),
+        update_time = VALUES(updateTime)
+    </insert>
+
+</mapper>
