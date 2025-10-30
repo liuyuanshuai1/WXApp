@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.familypoints.backend.mapper.TaskMapper">
+
+    <!-- 根据任务ID查询任务 -->
+    <select id="selectByTaskId" resultType="com.familypoints.backend.model.Task">
+        SELECT * FROM task WHERE id = #{id}
+    </select>
+
+    <!-- 根据家庭ID查询任务列表 -->
+    <select id="selectByFamilyId" resultType="com.familypoints.backend.model.Task">
+        SELECT * FROM task WHERE family_id = #{familyId} ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据执行者ID查询任务列表 -->
+    <select id="selectByExecutorId" resultType="com.familypoints.backend.model.Task">
+        SELECT * FROM task WHERE executor_id = #{executorId} ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据创建者ID查询任务列表 -->
+    <select id="selectByCreatorId" resultType="com.familypoints.backend.model.Task">
+        SELECT * FROM task WHERE created_by = #{creatorId} ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据家庭ID和状态查询任务列表 -->
+    <select id="selectByFamilyIdAndStatus" resultType="com.familypoints.backend.model.Task">
+        SELECT * FROM task WHERE family_id = #{familyId} AND status = #{status} ORDER BY created_at DESC
+    </select>
+
+    <!-- 更新任务状态 -->
+    <update id="updateTaskStatus">
+        UPDATE task
+        SET status = #{status}, updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 分配任务给执行者 -->
+    <update id="assignTaskToExecutor">
+        UPDATE task
+        SET executor_id = #{executorId}, status = 1, updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 插入任务记录 -->
+    <insert id="insert" parameterType="com.familypoints.backend.model.Task">
+        INSERT INTO task (id, title, description, points, status, created_by, executor_id, family_id, deadline, created_at)
+        VALUES (#{id}, #{title}, #{description}, #{points}, #{status}, #{createdBy}, #{executorId}, #{familyId}, #{deadline}, #{createdAt})
+    </insert>
+
+    <!-- 更新任务信息 -->
+    <update id="updateById" parameterType="com.familypoints.backend.model.Task">
+        UPDATE task
+        SET 
+            title = #{title},
+            description = #{description},
+            points = #{points},
+            deadline = #{deadline},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+</mapper>

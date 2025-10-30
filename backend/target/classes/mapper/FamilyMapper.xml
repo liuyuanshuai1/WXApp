@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.familypoints.backend.mapper.FamilyMapper">
+
+    <!-- 根据邀请码查询家庭 -->
+    <select id="selectByCode" resultType="com.familypoints.backend.model.Family">
+        SELECT * FROM family WHERE code = #{code} AND code_expiry > NOW()
+    </select>
+
+    <!-- 根据家庭ID查询 -->
+    <select id="selectByFamilyId" resultType="com.familypoints.backend.model.Family">
+        SELECT * FROM family WHERE id = #{familyId}
+    </select>
+
+    <!-- 根据创建者ID查询 -->
+    <select id="selectByCreatorId" resultType="com.familypoints.backend.model.Family">
+        SELECT * FROM family WHERE creator_id = #{creatorId}
+    </select>
+
+    <!-- 更新家庭邀请码 -->
+    <update id="updateFamilyCode">
+        UPDATE family SET code = #{code}, code_expiry = #{codeExpiry} WHERE id = #{id}
+    </update>
+
+    <!-- 插入家庭信息 -->
+    <insert id="insert" parameterType="com.familypoints.backend.model.Family">
+        INSERT INTO family (id, name, creator_id, code, code_expiry, created_at)
+        VALUES (#{id}, #{name}, #{creatorId}, #{code}, #{codeExpiry}, #{createdAt})
+    </insert>
+
+    <!-- 根据ID更新家庭信息 -->
+    <update id="updateById" parameterType="com.familypoints.backend.model.Family">
+        UPDATE family SET name = #{name} WHERE id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.familypoints.backend.mapper.RewardExchangeMapper">
+
+    <!-- 根据兑换记录ID查询 -->
+    <select id="selectById" resultType="com.familypoints.backend.model.entity.RewardExchange">
+        SELECT * FROM reward_exchange WHERE id = #{id}
+    </select>
+
+    <!-- 根据用户ID查询兑换记录 -->
+    <select id="selectByUserId" resultType="com.familypoints.backend.model.entity.RewardExchange">
+        SELECT * FROM reward_exchange WHERE user_id = #{userId} ORDER BY exchanged_at DESC
+    </select>
+
+    <!-- 根据家庭ID查询待审核的兑换记录 -->
+    <select id="selectPendingByFamilyId" resultType="com.familypoints.backend.model.entity.RewardExchange">
+        SELECT re.* 
+        FROM reward_exchange re
+        JOIN reward r ON re.reward_id = r.id
+        WHERE r.family_id = #{familyId} AND re.status = 0
+        ORDER BY re.exchanged_at ASC
+    </select>
+
+    <!-- 更新兑换记录状态 -->
+    <update id="updateExchangeStatus">
+        UPDATE reward_exchange
+        SET 
+            status = #{status},
+            reviewer_id = #{reviewerId},
+            review_comment = #{reviewComment},
+            reviewed_at = #{reviewedAt}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据奖励ID查询兑换记录 -->
+    <select id="selectByRewardId" resultType="com.familypoints.backend.model.entity.RewardExchange">
+        SELECT * FROM reward_exchange WHERE reward_id = #{rewardId} ORDER BY exchanged_at DESC
+    </select>
+
+    <!-- 插入奖励兑换记录 -->
+    <insert id="insert" parameterType="com.familypoints.backend.model.entity.RewardExchange">
+        INSERT INTO reward_exchange (id, reward_id, user_id, points, status, exchanged_at)
+        VALUES (#{id}, #{rewardId}, #{userId}, #{points}, #{status}, #{exchangedAt})
+    </insert>
+</mapper>
